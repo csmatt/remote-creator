@@ -1,0 +1,25 @@
+<div style="display: none;" id="xmlConfig" data-bind="template: {name: 'xmlConfig-template', data: rm}"></div>
+<script type="text/html" id="xmlConfig-template">
+<Actions data-bind="foreach: actions">
+  <Action data-bind="attr: {Name: name}">
+    <!-- ko foreach: actionRefs -->
+    <ActionRef data-bind="attr: {Name: name, Target: target, Extra: extra}">
+      <!-- ko foreach: extrasForConfig -->
+      <Extra data-bind="attr: {Name: name}, text: value"></Extra>
+      <!-- /ko -->
+    </ActionRef>
+    <!-- /ko -->
+  </Action>
+</Actions>
+<Layout data-bind="foreach: widgetRows">
+  <Row data-bind="foreach: widgets">
+    <!-- ko with: cm() -->
+    <Control data-bind="attr: {Type: type, Text: text, Width: width, Height: height, Icon: icon, TextAlign: textAlign, Checked: checked, OnClick: $parent.action() ? $parent.action().name : ''}">
+      <!-- ko foreach: items -->
+      <Item data-bind="text: $data"></Item>
+      <!-- /ko -->
+    </Control>
+    <!-- /ko -->
+  </Row>
+</Layout>
+</script>

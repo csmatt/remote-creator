@@ -1,0 +1,32 @@
+button { font-size: 0.7em !important; }
+select { font-size: 0.8em !important; }
+
+#phone { width: 275px; height: 535px; float: left; display: inline-block; background-image:url('/images/nexus4wUR.png'); }
+#remoteContainer { background-color: white; width: 235px; height: 295px; position: absolute; top: 170px; left: 15px; padding: 5px; }
+#widgetConfig { display: inline-block; float: left; width: 25%; height: 100%; }
+#availableIcons { width: 476px; }
+#availableWidgets li { margin: 3px; padding: 1px; float: left; width: 50px; height: 50px; text-align: center; }
+#generatedConfig { width: 700px; height: 500px; }
+.widgetRow { list-style-type: none; width: 100%; padding: 0px; margin: 1px; }
+.widgetRow > li { position: relative; float: left; width: 230px; height: 50px; text-align: center; margin: 1px; }
+.selectedRow { border: 1px dotted; }
+.selectedWidget { border: 1px solid; }
+.widgetTextLabel { color: white; vertical-align:middle; display:block; position: relative; top: -75%; }
+.innerWidgetDiv { width: 100%; height: 100%; }
+li.actionsMenu > span { display: inline-block; cursor: pointer; }
+
+#helpDialog div { display: block; margin: 10px; }
+
+.selectable .ui-selecting { background: #FECA40; }
+.selectable .ui-selected { background: #F39814; color: white; }
+.selectable { list-style-type: none; margin: 0; padding: 0; width: 100%; }
+.selectable li { margin: 3px; padding: 1px; float: left; width: 50px; height: 40px; font-size: 4em; text-align: center; }
+.ui-dialog a { color: #2388FF !important; }
+
+/* Widget Types */
+.Button { border-radius: 0%; }
+.Orb { background-image:url('/images/orb.png'); background-size: contain; background-repeat: no-repeat; background-position: center; background-color: white !important; }
+.Slider { background-image:url('/images/slider.png'); background-size: contain; background-repeat: no-repeat; background-position: center; background-color: white !important; }
+.TextBox { background-color: white !important; border: 1px solid grey !important; }
+.TextLabel {border-radius: 0px; padding: 0px; !important;}
+

@@ -1,0 +1,20 @@
+<!-- ko with: cm() -->
+<div>
+  <label for="widgetTypeSelector">Type</label>
+  <select data-bind="options: WIDGET_TYPES, value: type" name="widgetTypeSelector"></select>
+</div>
+<div data-bind="ifEnabled: 'items'">
+  <label for="listItems" style="vertical-align: top;">Items:</label>
+  <textarea id="listItems" data-bind="value: item"></textarea>
+</div>
+<div data-bind="ifEnabled: 'text'">
+  <label for="text">Text:</label>
+  <input type="text" name="text" data-bind="value: text, valueUpdate: 'afterkeydown'"></input>
+  <input type="radio" value="left" data-bind="checked: textAlignSelection">left</input>
+  <input type="radio" value="center" data-bind="checked: textAlignSelection">center</input>
+  <input type="radio" value="right" data-bind="checked: textAlignSelection">right</input>
+</div>
+<div data-bind="ifEnabled: 'checked'">
+  <input type="checkbox" data-bind="checked: _checked">Enabled By Default</input>
+</div>
+<!-- /ko -->

@@ -1,0 +1,108 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/2.9.0/build/reset/reset-min.css">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootswatch/2.1.1/simplex/bootstrap.min.css">
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.0/themes/ui-darkness/jquery-ui.css">
+    <link rel="stylesheet" href="css/main.css">
+  </head>
+  <body>
+    <div id="main">
+    <div class="navbar">
+      <div class="navbar-inner">
+	<a class="brand" href="#" style="width: 225px;">Remote Creator</a>
+	<ul class="nav">
+	  <li class="dropdown">
+	    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Row
+	      <b class="caret"></b>
+	    </a>
+	    <ul class="dropdown-menu">
+	      <li><a href="#" data-bind="click: createWidget">Add Widget</a></li>
+	      <li><a href="#" data-bind="click: createWidgetRow">Add Row</a></li>
+	      <li data-bind="if: widgetRows().length > 1"><a href="#" data-bind="click: deleteRow">Delete Row</a></li>
+	    </ul>
+	  </li>
+	  <li class="dropdown">
+	    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Remote
+	      <b class="caret"></b>
+	    </a>
+	    <ul class="dropdown-menu">
+	      <li><a href="#" data-bind="click: editRemote">Edit Remote</a></li>
+	      <li><a href="#" data-bind="click: showGeneratedConfigDialog">Generate Config</a></li>
+	    </ul>
+	  </li>
+	  <li>
+	    <a href="#" data-bind="click: showDialog.bind('helpDialog')">Help</a>
+	  </li>
+	  <li>
+	    <a href="#" data-bind="click: showDialog.bind('aboutDialog')">About</a>
+	  </li>
+	</ul>
+      </div>
+    </div>
+    <div id="phone">
+      <div id="remoteContainer" data-bind="foreach: widgetRows">
+	<ol class="widgetRow" data-bind="foreach: widgets, click: $root.setSelectedWidgetRow, style: {height: height, padding: padding, margin: margin}, css: {selectedRow: $data === $root.selectedWidgetRow()}">
+	  <li style="background-color: grey;" data-bind="style: {width:cm().width}, classes: {static: 'widget hasMenu', observable: ['shape'], css: {selectedWidget: $data == $root.selectedWidget()}}, jqueryui: {widget: 'resizable', options: {handles: 's', minHeight: MIN_WIDGET_HEIGHT}}, event: {'resizestop': $parent.updateHeight, 'mousedown': $root.setSelectedWidget}">
+	    {% include "editWidgetDropdown.html" %}
+	    <div class="innerWidgetDiv" data-bind="ifEnabled: {option: 'icon', widget: $data}, attr: {style: uiStyle}"></div>
+	    <div class="listItems" data-bind="ifEnabled: {option: 'items', widget: $data}">
+	      <ul data-bind="foreach: cm().items">
+	      <li><span data-bind="text: $data"></span></li>
+	      </ul>
+	    </div>
+	    <!-- ko ifEnabled: {option: 'text', widget: $data} -->
+	      <span class="widgetTextLabel" data-bind="text: cm().text, style: {textAlign: cm().textAlign}"></span>
+	    <!-- /ko -->
+	  </li>
+	</ol>
+	<div style="clear: both;"></div>
+      </div>
+    </div>
+    <div id="widgetConfig">
+      <div id="widget_options" style="display: inline-block;">
+	<form data-bind="with: selectedWidget">
+	  <div>
+	    {% include "controlConfig.html" %}
+	  </div>
+	</form>
+      </div>
+      <div style="display: inline-block;" data-bind="ifEnabled: {option: 'icon', widget: $root.selectedWidget()}">
+	<ol id="availableIcons" class="selectable" data-bind="foreach: ICONS">
+	  <li class="ui-state-default" data-bind="click: $root.setIcon, css: {'ui-selected': $root.selectedWidget().cm().icon() === $data}">
+	    <!-- ko if: iconNameToImageUrlMap[$data] -->
+	    <img data-bind="attr:{src: iconNameToImageUrlMap[$data]}"/>
+	    <!-- /ko -->
+	  </li>
+	</ol>
+      </div>
+    </div>
+
+    <div id="generatedConfigDialog" title="Custom Remote XML" style="display:none;">
+      <textarea id="generatedConfig" data-bind="if: $root"></textarea>      
+    </div>
+    {% include "xmlConfig.html" %}
+    {% include "remoteDialog.html" %}
+    {% include "actionConfig.html" %}
+    {% include "help.html" %}
+    {% include "about.html" %}
+    </div>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.0.debug.js"></script>
+    <script type="text/javascript" src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
+    <!-- local js files
+    <script type="text/javascript" src="js/lib/jquery.js"></script>
+    <script type="text/javascript" src="js/lib/jquery-ui.js"></script>
+    <script type="text/javascript" src="js/lib/knockout.js"></script>
+    <script type="text/javascript" src="js/lib/bootstrap/js/bootstrap.js"></script>-->
+    <script type="text/javascript" src="js/kocustom.js"></script>
+    <script type="text/javascript" src="js/generate.js"></script>
+    <script type="text/javascript" src="js/actions.js"></script>
+    <script type="text/javascript" src="js/utils.js"></script>
+    <script type="text/javascript" src="js/koquery.js"></script>
+    <script type="text/javascript" src="js/widget.js"></script>
+    <script type="text/javascript" src="js/widgetRow.js"></script>
+    <script type="text/javascript" src="js/controller.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+  </body>
+</html>

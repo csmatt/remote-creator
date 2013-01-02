@@ -1,0 +1,25 @@
+<div class="btn-group" style="position: absolute; top: 0px; right: 0px;" data-bind="with: cm()">
+  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+    <span class="ui-icon ui-icon-pencil editWidgetBtn"></span>
+  </a>
+  <ul class="dropdown-menu">
+    <li class="dropdown-submenu">
+      <a href="#">Choose Action</a>
+      <ul class="dropdown-menu">
+	<li><a href="#" data-bind="click: $root.createAndManageAction">Create Action</a></li>
+	<li class="divider"></li>
+	<!-- ko foreach: $root.actions -->
+	<li class="dropdown-submenu actionsMenu" data-bind="click: $root.selectedWidget().action">
+	  <span data-bind="css: {'ui-icon ui-icon-check': $root.selectedWidget().action().name === name}"></span>
+	  <span data-bind="text: name" title="Click to select this action"></span>
+	  <span data-bind="click: $root.manageAction" class="ui-icon ui-icon-pencil" title="Manage Action"></span>
+	  <span data-bind="click: $root.deleteAction, css: {'ui-icon ui-icon-trash': $root.actions().length > 1}" title="Delete Action"></span>
+	</li>
+	<!-- /ko -->
+      </ul>
+    </li>
+    <li data-bind="if: $root.widgets().length > 1">
+      <a href="#" data-bind="click: $root.deleteWidget">Delete</a>
+    </li>
+  </ul>
+</div>

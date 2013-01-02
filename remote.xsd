@@ -1,0 +1,199 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://unifiedremote.com/schemas/remote.xsd" targetNamespace="http://unifiedremote.com/schemas/remote.xsd">
+  <xsd:element name="Remote" type="RemoteType"/>
+  
+  <xsd:complexType name="RemoteType">
+    <xsd:sequence>
+      <xsd:element name="Actions" type="ActionsType" maxOccurs="1" minOccurs="0"/>
+      <xsd:element name="Layout" type="LayoutType" maxOccurs="1" minOccurs="0"/>
+    </xsd:sequence>
+    <xsd:attribute name="Name" type="xsd:string" use="required"/>
+    <xsd:attribute name="Author" type="xsd:string" use="required"/>
+    <xsd:attribute name="Description" type="xsd:string" use="required"/>
+    <xsd:attribute name="Icon" type="xsd:string"/>
+    <xsd:attribute name="Service" type="BoolSimple"/>
+  </xsd:complexType>
+  
+  <xsd:complexType name="ActionsType">
+    <xsd:choice maxOccurs="unbounded">
+      <xsd:element name="ActionRef" type="ActionRefType" minOccurs="0" maxOccurs="unbounded" />
+      <xsd:element name="Action" type="ActionType" minOccurs="0" maxOccurs="unbounded" />
+    </xsd:choice>
+  </xsd:complexType>
+  
+  <xsd:complexType name="ActionType">
+    <xsd:sequence>
+      <xsd:element name="ActionRef" type="ActionRefType" minOccurs="0" maxOccurs="unbounded" />
+    </xsd:sequence>
+    <xsd:attribute name="Name" type="xsd:string" use="required"/>
+    <xsd:attribute name="Public" type="BoolSimple"/>
+  </xsd:complexType>
+  
+  <xsd:complexType name="ActionRefType">
+    <xsd:sequence>
+      <xsd:element name="Extra" type="ExtraType" minOccurs="0" maxOccurs="unbounded" />
+    </xsd:sequence>
+    <xsd:attribute name="Name" type="xsd:string" use="required"/>
+    <xsd:attribute name="Target" type="xsd:string"/>
+    <xsd:attribute name="Extra" type="xsd:string"/>
+  </xsd:complexType>
+  
+  <xsd:complexType name="ExtraType">
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:string">
+        <xsd:attribute name="Name" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  
+  <xsd:complexType name="LayoutType">
+    <xsd:sequence>
+      <xsd:element name="Row" type="RowType" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+    <xsd:attribute name="Orientation" type="OrientationSimple" />
+    <xsd:attribute name="OnLaunch" type="xsd:string"/>
+    <xsd:attribute name="OnVolumeUp" type="xsd:string"/>
+    <xsd:attribute name="OnVolumeDown" type="xsd:string"/>
+    <xsd:attribute name="OnPause" type="xsd:string"/>
+    <xsd:attribute name="OnResume" type="xsd:string"/>
+    <xsd:attribute name="OnRefresh" type="xsd:string"/>
+    <xsd:attribute name="OnActivated" type="xsd:string"/>
+    <xsd:attribute name="OnDeactivated" type="xsd:string"/>
+    <xsd:attribute name="OnMenu" type="xsd:string"/>
+    <xsd:attribute name="Margin" type="xsd:string"/>
+    <xsd:attribute name="DefaultRowSpacing" type="xsd:string"/>
+    <xsd:attribute name="DefaultRowMargin" type="xsd:string"/>
+    <xsd:attribute name="OnUpdate" type="xsd:string"/>
+    <xsd:attribute name="UpdateInterval" type="xsd:int"/>
+  </xsd:complexType>
+  
+  <xsd:complexType name="RowType">
+    <xsd:sequence>
+      <xsd:element name="Control" type="ControlType" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+    <xsd:attribute name="Margin" type="xsd:int"/>
+    <xsd:attribute name="Spacing" type="xsd:int"/>
+  </xsd:complexType>
+  
+  <xsd:complexType name="ControlType">
+    <xsd:sequence>
+      <xsd:element name="Item" type="ItemType" minOccurs="0" maxOccurs="unbounded" />
+    </xsd:sequence>
+    <xsd:attribute name="Type" type="TypeSimple" use="required"/>
+    <xsd:attribute name="Text" type="xsd:string"/>
+    <xsd:attribute name="Size" type="xsd:string"/>
+    <xsd:attribute name="Width" type="xsd:string"/>
+    <xsd:attribute name="Height" type="xsd:string"/>
+    <xsd:attribute name="Margin" type="xsd:string"/>
+    <xsd:attribute name="Align" type="AlignSimple"/>
+    <xsd:attribute name="Icon" type="IconSimple"/>
+    <xsd:attribute name="ID" type="xsd:string"/>
+    <xsd:attribute name="Checked" type="BoolSimple"/>
+    <xsd:attribute name="MultiLine" type="BoolSimple"/>
+    <xsd:attribute name="OnClick" type="xsd:string"/>
+    <xsd:attribute name="OnChange" type="xsd:string"/>
+    <xsd:attribute name="OnProgress" type="xsd:string"/>
+    <xsd:attribute name="Progress" type="xsd:int"/>
+    <xsd:attribute name="ProgressMax" type="xsd:int"/>
+    <xsd:attribute name="OnUp" type="xsd:string"/>
+    <xsd:attribute name="OnDown" type="xsd:string"/>
+    <xsd:attribute name="OnItem" type="xsd:string"/>
+    <xsd:attribute name="OnLong" type="xsd:string"/>
+    <xsd:attribute name="OnStart" type="xsd:string"/>
+    <xsd:attribute name="OnStop" type="xsd:string"/>
+    <xsd:attribute name="OnDone" type="xsd:string"/>
+  </xsd:complexType>
+  
+  <xsd:complexType name="ItemType">
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:string">
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  
+  <xsd:simpleType name="TypeSimple">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Orb"/>
+      <xsd:enumeration value="Button"/>
+	    <xsd:enumeration value="Label"/>
+      <xsd:enumeration value="Toggle"/>
+      <xsd:enumeration value="Slider"/>
+      <xsd:enumeration value="TextBox"/>
+      <xsd:enumeration value="List"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  
+  <xsd:simpleType name="IconSimple">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="WINDOWS"/>
+      <xsd:enumeration value="THUMBS_UP"/>
+      <xsd:enumeration value="THUMBS_DOWN"/>
+      <xsd:enumeration value="LEFT"/>
+      <xsd:enumeration value="RIGHT"/>
+      <xsd:enumeration value="UP"/>
+      <xsd:enumeration value="DOWN"/>
+      <xsd:enumeration value="PLAY"/>
+      <xsd:enumeration value="PAUSE"/>
+      <xsd:enumeration value="STOP"/>
+      <xsd:enumeration value="NEXT"/>
+      <xsd:enumeration value="PREVIOUS"/>
+      <xsd:enumeration value="FF"/>
+      <xsd:enumeration value="RWD"/>
+      <xsd:enumeration value="RECORD"/>
+      <xsd:enumeration value="VUP"/>
+      <xsd:enumeration value="VDOWN"/>
+      <xsd:enumeration value="VMUTE"/>
+      <xsd:enumeration value="BACK1"/>
+      <xsd:enumeration value="BACK2"/>
+      <xsd:enumeration value="FULLSCREEN"/>
+      <xsd:enumeration value="HOME"/>
+      <xsd:enumeration value="PRINTSCREEN"/>
+      <xsd:enumeration value="PLAYLIST"/>
+      <xsd:enumeration value="SELECT"/>
+      <xsd:enumeration value="TOP"/>
+      <xsd:enumeration value="GOTO"/>
+      <xsd:enumeration value="REFRESH"/>
+      <xsd:enumeration value="MISSING"/>
+      <xsd:enumeration value="FILE"/>
+      <xsd:enumeration value="FOLDER"/>
+      <xsd:enumeration value="COMPUTER"/>
+      <xsd:enumeration value="FAVORITE"/>
+      <xsd:enumeration value="PLAY_PAUSE"/>
+      <xsd:enumeration value="ROTATE_LEFT"/>
+      <xsd:enumeration value="ROTATE_RIGHT"/>
+      <xsd:enumeration value="ZOOM_IN"/>
+      <xsd:enumeration value="ZOOM_OUT"/>
+      <xsd:enumeration value="PRINT"/>
+      <xsd:enumeration value="TAB_CLOSE"/>
+      <xsd:enumeration value="TAB_LEFT"/>
+      <xsd:enumeration value="TAB_RIGHT"/>
+      <xsd:enumeration value="WINDOW"/>
+      <xsd:enumeration value="TAB_NEW"/>
+      <xsd:enumeration value="ZOOM_NORMAL"/>
+      <xsd:enumeration value="TAB_SWITCH"/>
+      <xsd:enumeration value="ZOOM"/>
+      <xsd:enumeration value="WWW"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  
+  <xsd:simpleType name="BoolSimple">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  
+  <xsd:simpleType name="AlignSimple">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Left"/>
+      <xsd:enumeration value="Center"/>
+      <xsd:enumeration value="Right"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="OrientationSimple">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Landscape"/>
+      <xsd:enumeration value="Portrait"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:schema>
