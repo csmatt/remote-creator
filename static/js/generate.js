@@ -6,7 +6,7 @@ var generateConfig = function () {
     configString = configString.replace( /\s+\n/g, "\n" ); 
     configString = correctCase( configString );
     configString = '<?xml version="1.0" encoding="utf-8" ?>\n<ur:Remote xmlns:ur="http://unifiedremote.com/schemas/remote.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://unifiedremote.com/schemas/remote.xsd http://unifiedremote.com/schemas/remote.xsd"' + ' Name="'+rm.name() + '" Icon="'+ rm.icon() + '" Author="'+ rm.author() + '" Description="'+ rm.description() +'">' + configString;
-    return configString;
+    return configString+"</ur:Remote>";
 };
 var correctAttrCase = function ( match, ignore, attrName, firstChar, endAttrName, endAttr, index, str ) {
     var camelAttrList = ['TextAlign', 'OnClick', 'OnLaunch', 'OnVolumeUp', 'OnVolumeDown', 'OnPause', 'OnResume', 'OnActivated', 'OnDeactivated', 'OnMenu', 'DefaultRowSpacing', 'DefaultRowMargin', 'OnUpdate', 'UpdateInterval', 'ID', 'OnChange', 'OnProgress', 'ProgressMax', 'OnUp', 'OnDown', 'OnItem', 'OnLong', 'OnStart', 'OnStop', 'OnDone'], // TODO: move to global

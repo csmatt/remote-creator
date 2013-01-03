@@ -14,6 +14,10 @@
   <input type="radio" value="center" data-bind="checked: textAlignSelection">center</input>
   <input type="radio" value="right" data-bind="checked: textAlignSelection">right</input>
 </div>
+<!--<div>
+  <input type="text" data-bind="value: height" style="width: 50px;"></input>
+<button data-bind="click: function(){height(height()+1);$parent.updateHeight();}">+</button>
+</div>-->
 <div data-bind="ifEnabled: 'checked'">
   <input type="checkbox" data-bind="checked: _checked">Enabled By Default</input>
 </div>

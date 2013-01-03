@@ -92,15 +92,8 @@ var ActionRefModel = function(name) {
 	return extraLines;
     });
     self.actionsForSelectedLib = ko.observableArray([]);
-    self.target.subscribe( function(newValue) {
-	var actionLib = newValue,
-	    name, i;
-	retVal = [];
-	for( i = 0; i < ACTIONS[actionLib].length; i++) {
-	    name = ACTIONS[actionLib][i].name;
-	    retVal.push(name);
-	}
-	self.actionsForSelectedLib(retVal);
+    self.target.subscribe( function(actionLib) {
+	self.actionsForSelectedLib(ACTIONS[actionLib]);
     });
 };
 var ActionModel = function(name) {
