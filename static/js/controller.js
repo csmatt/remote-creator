@@ -58,7 +58,7 @@ var ControllerModel = function ( type, options ) {
     self.init();
 };
 
-var ActionRefModel = function(name) {
+var ActionRefModel = function() {
     var self = this;
     self.name = ko.observable(ACTION_LIBS[0]);
     self.target = ko.observable(ACTIONS[ACTION_LIBS[0]]);
@@ -96,12 +96,12 @@ var ActionRefModel = function(name) {
 	self.actionsForSelectedLib(ACTIONS[actionLib]);
     });
 };
-var ActionModel = function(name) {
+var ActionModel = function(name, leaveEmpty) {
     var self = this;
     self.name = ko.observable(name);
-    self.actionRefs = ko.observableArray([new ActionRefModel()]);
-    self.addActionRef = function() {
-	self.actionRefs.push(new ActionRefModel());
+    self.actionRefs = ko.observableArray(leaveEmpty ? [] : [new ActionRefModel()]);
+    self.addActionRef = function(newActionRef) {
+	self.actionRefs.push(newActionRef || new ActionRefModel());
     };
     self.removeActionRef = function(actionRef) {
 	self.actionRefs.remove(actionRef);

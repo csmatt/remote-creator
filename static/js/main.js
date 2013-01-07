@@ -11,10 +11,10 @@ $( function () {
 	self.actions = ko.observableArray( [] );
         self.selectedWidgetRow = ko.observable();
         self.selectedWidget = ko.observable();
-        self.createWidget = function () {
+        self.createWidget = function (newWidget) {
             if ( self.selectedWidgetRow().widgets().length < 8 ) {
-		var name = 'action'+self.widgets().length,
-		newWidget = new WidgetModel( self.createAction(), "Button", name );
+		var name = 'action'+self.widgets().length;
+		newWidget = newWidget || new WidgetModel( self.createAction(), "Button" );
 		self.setSelectedWidget( newWidget );
 		self.widgets.push( newWidget );
 		self.selectedWidgetRow().addWidget( newWidget );
@@ -22,11 +22,14 @@ $( function () {
                 console.warn( "Too many widgets for this row!" );
             }
         };
-        self.createWidgetRow = function () {
+        self.createWidgetRow = function (leaveEmpty) {
             var newWidgetRow = new WidgetRowModel( [] );
             self.selectedWidgetRow( newWidgetRow );
             self.widgetRows.push( newWidgetRow );
-            self.createWidget();
+	    if (!leaveEmpty) {
+		self.createWidget();
+	    }
+	    return newWidgetRow;
         };
 	self.deleteWidget = function() {
             if ( self.selectedWidgetRow().widgets().length > 1 ) {
@@ -88,8 +91,8 @@ $( function () {
 	    self.selectedWidget().action(action);
 	};
 	/** Creates a new action and adds it to the list of actions **/
-	self.createAction = function() {
-	    var newAction = new ActionModel('action'+actionCounter);
+	self.createAction = function(newAction) {
+	    newAction = newAction || new ActionModel('action'+actionCounter);
 	    actionCounter++;
 	    self.actions.push(newAction);
 	    return newAction;

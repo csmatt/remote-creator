@@ -48,5 +48,5 @@ class BaseRequestHandler(webapp2.RequestHandler):
 
 class IndexController(BaseRequestHandler):
     def get(self):
-        self.render('index.html')
+        self.render('index.html', {'LIVE':False})
             
