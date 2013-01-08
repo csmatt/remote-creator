@@ -31,6 +31,8 @@ $( function () {
 	    }
 	    return newWidgetRow;
         };
+	self._onCreateWidget = function() { self.createWidget(); };
+	self._onCreateWidgetRow = function() { self.createWidgetRow(); };
 	self.deleteWidget = function() {
             if ( self.selectedWidgetRow().widgets().length > 1 ) {
                 var indexOfSelectedWidget = self.selectedWidgetRow().widgets.indexOf( self.selectedWidget() ),
@@ -110,6 +112,7 @@ $( function () {
 	self.showGeneratedConfigDialog = function() {
 	    var generatedConfigDialog = $("#generatedConfigDialog"),
 	    config = generateConfig();
+	    //parseConfig(config);
 	    generatedConfigDialog.dialog({
 		modal: true,
 		width: 750,
@@ -120,10 +123,34 @@ $( function () {
 	    });
 	    $('textarea', generatedConfigDialog).val(config);
 	};
-        self.init = function () {
-            self.createWidgetRow();
+	self.showImportConfigDialog = function() {
+	    var importConfigDialog = $("#importConfigDialog");
+	    importConfigDialog.dialog({
+		modal: true,
+		width: 750,
+		height: 550,
+		buttons: {
+			"Import": function() { parseConfig($("#importConfigTextBox").val());  },
+		    "Close": function() { $(this).dialog("close"); }
+		}
+	    });
+	};
+        self.init = function (leaveEmpty, options) {
+	    self.name = ko.observable(options.name || "");
+	    self.icon = ko.observable(options.icon || "");
+	    self.author = ko.observable(options.author || "");
+	    self.description = ko.observable(options.description || "");
+	    self.widgetRows.removeAll();
+	    self.widgets.removeAll();
+	    self.actions.removeAll();
+	    self.selectedWidgetRow = ko.observable();
+	    self.selectedWidget = ko.observable();
+
+	    if(!leaveEmpty) {
+		self.createWidgetRow();
+	    }
         };
-        self.init();
+        self.init(false, {});
     };
     rm = new RemoteModel();
     ko.applyBindings( rm );

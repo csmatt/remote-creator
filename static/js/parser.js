@@ -1,35 +1,46 @@
 var parseConfig = function(configXml) {
     var config = $(configXml),
-    actionsMap = parseActions($('Actions', config));
+    rootNode = $('ur', config),
+    options = {},
+    actionsMap;
+
+    options.name = rootNode.attr('Name');
+    options.icon = rootNode.attr('Icon');
+    options.author = rootNode.attr('Author');
+    options.description = rootNode.attr('Description');
+    rm.init(true, options); // reinitialize the remote model
+    actionsMap = parseActions($('Actions', config)),
     parseLayout($('Layout', config), actionsMap);
 };
 var parseLayout = function(layout, actionsMap) {
-    var rowNodes = $('Row', layout), crntWidgetRow, crntWidget, crntController, action, nodeName, nodeValue, attrs, i, j;
+    var rowNodes = $('Row', layout), controllerAttrMap, crntWidgetRow, crntWidget, crntController, action, nodeName, nodeValue, attrs, i, j;
     for ( i = 0; i < rowNodes.length; i++ ) {
 	crntWidgetRow = rm.createWidgetRow(true);
-	attrs = rowNodes[i].attributes;
 	controlNodes = $('Control', rowNodes[i]);
 	for ( j = 0; j < controlNodes.length; j++ ) {
-	    crntController = new ControllerModel();
+	    controllerAttrMap = {}
+	    attrs = controlNodes[j].attributes;
 	    for ( k = 0; k < attrs.length; k++ ) {
-		nodeName = attrs.item(j).nodeName;
-		nodeValue = attrs.item(j).nodeValue;
+		nodeName = attrs.item(k).nodeName;
+		nodeValue = attrs.item(k).nodeValue;
 		if (nodeName.substring(0,2) === 'on') {
 		    // this is an event, it needs to be linked to the action with the same name as nodeValue
 		    action = actionsMap[nodeValue];
-		} else {
-		    crntController[nodeName](nodeValue);
 		}
+		controllerAttrMap[nodeName] = nodeValue;
 	    }
+	    crntController = new ControllerModel(controllerAttrMap.type, controllerAttrMap);
+	    rm.createWidget(new WidgetModel(action, null, crntController));
 	}
-	rm.createWidget(new WidgetModel(action, null, crntController));
     }
 };
 var parseActions = function(actions) {
-    var actionsMap = {}, crntAction, crntActionRef, actionRefs, extras, extrasArr, attrs, nodeName, nodeValue, i, j, k;
-    for ( i = 0; i < actions.length; i++ ) {
-	crntAction = rm.createAction({name:$(actions[i]).attr('name')});
-	actionRefs = $('ActionRef', actions[i]);
+    var actionNodes = $('Action', actions), actionsMap = {}, crntAction, crntActionRef, actionRefs, extras, extrasArr, attrs, nodeName, nodeValue, i, j, k;
+    for ( i = 0; i < actionNodes.length; i++ ) {
+	crntAction = new ActionModel($(actionNodes[i]).attr('name'), true);
+	rm.createAction(crntAction);
+	actionsMap[crntAction.name()] = crntAction;
+	actionRefs = $('ActionRef', actionNodes[i]);
 	for ( j = 0; j < actionRefs.length; j++ ) {
 	    crntActionRef = new ActionRefModel();
 	    attrs = actionRefs[j].attributes;
@@ -46,10 +57,8 @@ var parseActions = function(actions) {
 		}
 		crntActionRef().extra(extrasArr.join(','));
 	    }
-	    crntAction().addActionRef(crntActionRef);
+	    crntAction.addActionRef(crntActionRef);
 	}
-	rm.createAction(crntAction);
-	actionsMap[crntAction().name()] = crntAction;
     }
     return actionsMap;
 };

@@ -4,6 +4,7 @@ WIDGET_HEIGHT = 50;
 
 var ControllerModel = function ( type, options ) {
     var self = this;
+    options = options || {};
     //all
     self.type = ko.observable(type);
     self.width = ko.observable(options.width || MAX_WIDGET_WIDTH);
@@ -50,12 +51,19 @@ var ControllerModel = function ( type, options ) {
 	}
 	return itemLines;
     });
-    self.init = function() {
+    self.init = function(options) {
 	if(self.isEnabled('text')) {
 	    self.textAlign('center');
 	}
+	if(options) {
+	    for(var option in options) {
+		if (options.hasOwnProperty(option) && self.hasOwnProperty(option)) {
+		    self[option](options[option]);
+		}
+	    }
+	}
     };
-    self.init();
+    self.init(options);
 };
 
 var ActionRefModel = function() {

@@ -1,6 +1,6 @@
 var WidgetModel = function(action, type, newController) {
     var self = this;
-    self.cm = ko.observable(newController || new ControllerModel(type, options || {}));
+    self.cm = ko.observable(newController || new ControllerModel(type, {}));
     self.action = ko.observable(action);
 
     self.shape = ko.computed(function(){ 
