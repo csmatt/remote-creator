@@ -1,0 +1,4 @@
+*.pyc
+static/css/main-min.css
+static/js/all-min.js
+static/js/all.js
