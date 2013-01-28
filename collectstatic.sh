@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DIR=`pwd`"/"
-YUI=$DIR"../yuicompressor-2.4.7/build/yuicompressor-2.4.7.jar"
+YUI=$DIR"yuicompressor-2.4.7/build/yuicompressor-2.4.7.jar"
 JS_FILES=("kocustom.js" "generate.js" "parser.js" "actions.js" "utils.js" "koquery.js" "widget.js" "widgetRow.js" "controller.js" "main.js")
 STATIC=$DIR"static/"
 
