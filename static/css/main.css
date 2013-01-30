@@ -7,6 +7,7 @@ select { font-size: 0.8em !important; }
 #availableIcons { width: 476px; }
 #availableWidgets li { margin: 3px; padding: 1px; float: left; width: 50px; height: 50px; text-align: center; }
 #generatedConfig { width: 700px; height: 500px; }
+#importConfigTextBox { width: 700px; height: 500px; }
 .widgetRow { list-style-type: none; width: 100%; padding: 0px; margin: 1px; }
 .widgetRow > li { position: relative; float: left; width: 230px; height: 50px; text-align: center; margin: 1px; }
 .selectedRow { border: 1px dotted; }

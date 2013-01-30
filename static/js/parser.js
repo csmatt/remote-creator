@@ -55,7 +55,7 @@ var parseActions = function(actions) {
 		for ( k = 0; k < extras.length; k++ ) {
 		    extrasArr.push($(extras[k]).attr('name')+'='+$(extras[k]).attr('value'));
 		}
-		crntActionRef().extra(extrasArr.join(','));
+		crntActionRef.extra(extrasArr.join(','));
 	    }
 	    crntAction.addActionRef(crntActionRef);
 	}
