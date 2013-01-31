@@ -9,6 +9,7 @@ var parseConfig = function(configXml) {
     options.author = rootNode.attr('Author');
     options.description = rootNode.attr('Description');
     instantiateRemoteModel(true); // reinitialize the remote model
+    rm.init(true, options);
     actionsMap = parseActions($('Actions', config)),
     parseLayout($('Layout', config), actionsMap);
     ko.applyBindings( rm );

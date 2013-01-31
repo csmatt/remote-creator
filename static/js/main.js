@@ -155,11 +155,13 @@ $( function () {
 
     instantiateRemoteModel = function(leaveEmpty) {
 	if (rm) {
-	    ko.cleanNode($(document)[0]);
+	    ko.cleanNode($("html")[0]);
+	} else {
+	    rm = new RemoteModel(leaveEmpty);
 	}
-	rm = new RemoteModel(leaveEmpty);
     };
     instantiateRemoteModel(false);
+    rm.init(false, {});
     ko.applyBindings( rm );
     // Dialogs
     var remoteDialogElem = $("#RemoteDialog");
