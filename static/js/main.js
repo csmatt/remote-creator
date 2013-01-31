@@ -1,6 +1,6 @@
 var rm = null;
 $( function () {
-    var RemoteModel = function () {
+    var RemoteModel = function (leaveEmpty) {
         var self = this;
 	self.name = ko.observable("");
 	self.icon = ko.observable("");
@@ -82,6 +82,7 @@ $( function () {
 	/** Applies the bindings of action to the dialog and then opens the dialog **/
 	self.manageAction = function(action) {
 	    var editActionDialogElem = $("#editActionDialog");
+	    self.selectedWidget().action(action);
 	    editActionDialogElem.dialog({
 		modal: true,
 		width: 670,
@@ -90,7 +91,6 @@ $( function () {
 		    "Close": function() { $(this).dialog("close"); }
 		}
 	    });
-	    self.selectedWidget().action(action);
 	};
 	/** Creates a new action and adds it to the list of actions **/
 	self.createAction = function(newAction) {
@@ -140,9 +140,9 @@ $( function () {
 	    self.icon = ko.observable(options.icon || "");
 	    self.author = ko.observable(options.author || "");
 	    self.description = ko.observable(options.description || "");
-	    self.widgetRows.removeAll();
-	    self.widgets.removeAll();
 	    self.actions.removeAll();
+	    self.widgets.removeAll();
+	    self.widgetRows.removeAll();
 	    self.selectedWidgetRow = ko.observable();
 	    self.selectedWidget = ko.observable();
 
@@ -150,11 +150,17 @@ $( function () {
 		self.createWidgetRow();
 	    }
         };
-        self.init(false, {});
+        self.init(leaveEmpty, {});
     };
-    rm = new RemoteModel();
-    ko.applyBindings( rm );
 
+    instantiateRemoteModel = function(leaveEmpty) {
+	if (rm) {
+	    ko.cleanNode($(document)[0]);
+	}
+	rm = new RemoteModel(leaveEmpty);
+    };
+    instantiateRemoteModel(false);
+    ko.applyBindings( rm );
     // Dialogs
     var remoteDialogElem = $("#RemoteDialog");
     remoteDialogElem.dialog({
@@ -167,7 +173,8 @@ $( function () {
 	}
     });
 });
-var availableIcons = ICONS,
+var instantiateRemoteModel,
+availableIcons = ICONS,
 PHONE_WIDTH = 235,
 PHONE_HEIGHT = 350,
 actionCounter = 0;

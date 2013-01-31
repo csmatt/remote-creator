@@ -38,7 +38,12 @@ ko.bindingHandlers.ifEnabled = {
 	    option = valueAccessor().option,
 	    widget = valueAccessor().widget;
 	}
-	newValueAccessor = function() { return widget.cm().isEnabled(option) };
+	newValueAccessor = function() { 
+	    if (!widget) {
+		return false;
+	    }
+	    return widget.cm().isEnabled(option) 
+	};
 	ko.bindingHandlers['if'].update(element, newValueAccessor, allBindingsAccessor, viewModel, context);
     }
 };

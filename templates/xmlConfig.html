@@ -3,9 +3,14 @@
 <Actions data-bind="foreach: actions">
   <Action data-bind="attr: {Name: name}">
     <!-- ko foreach: actionRefs -->
-    <ActionRef data-bind="attr: {Name: name, Target: target, Extra: extra}">
-      <!-- ko foreach: extrasForConfig -->
+    <ActionRef data-bind="attr: {Name: name, Target: target}">
+      <!-- ko foreach: extras -->
+      <!-- ko if: name -->
       <Extra data-bind="attr: {Name: name}, text: value"></Extra>
+      <!-- /ko -->
+      <!-- ko ifnot: name -->
+      <Extra data-bind="text: value"></Extra>
+      <!-- /ko -->
       <!-- /ko -->
     </ActionRef>
     <!-- /ko -->

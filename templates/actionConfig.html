@@ -1,12 +1,14 @@
-<div style="display: none;" id="editActionDialog" title="Edit Action" data-bind="with: $root.selectedWidget().action()">
+<div style="display: none;" id="editActionDialog" title="Edit Action" data-bind="with: $root.selectedWidget().action">
     <label for="name">Name:</label>
     <input type="text" data-bind="value: name"></input>
+    <button data-bind="click: addActionRef">Add Reference</button>
+    <span data-bind="text: ko.toJSON($root.selectedWidget())"></span>
     <!-- ko foreach: actionRefs -->
     <div>
       <select name="actionLibSelector" data-bind="options: ACTION_LIBS, value: target"></select>
       <select name="actionNameSelector" data-bind="options: actionsForSelectedLib, value: name" style="width: 100px;"></select>
       <label for="extras" style="vertical-align: top; display: inline-block;">Extra(s):</label>
-      <input type="text" data-bind="value: extra" name="extras"></input><span class="ui-icon ui-icon-info" style="display: inline-block;" title="For multiple extras use this syntax: extra1_name=extra1_value,extra2_name=extra2_value"></span>
+      <input type="text" data-bind="value: extrasAsString" name="extras"></input><span class="ui-icon ui-icon-info" style="display: inline-block;" title="For multiple extras use this syntax: extra1_name=extra1_value,extra2_name=extra2_value"></span>
       <!-- ko if: $index() !== 0 -->
       <button data-bind="click: $parent.removeActionRef" style="width: 20px; vertical-align:top;" title="Click to remove action" class="btn">-</button>
       <!-- /ko -->

@@ -70,34 +70,33 @@ var ActionRefModel = function() {
     var self = this;
     self.name = ko.observable(ACTION_LIBS[0]);
     self.target = ko.observable(ACTIONS[ACTION_LIBS[0]]);
-    self.extra = ko.observable("");
-    self.extrasForConfig = [];
-    self.extras = ko.computed(function() {
-	// split extras by commas. 
-	// if there's only one extra, but it's an empty string, return null
-	// if there's only one extra and it's not an empty string, set self.extra to it and return null
-	// if there's more than one extra, set self.extra to undefined and return the list of extras
-	var extraLinesElemVal = self.extra(), extraLines = "", extras = [], nameAndExtra;
-	self.extrasForConfig = [];
-	if (extraLinesElemVal) {
-	    extraLines = extraLinesElemVal.split(',');
-	    for( i = 0; i < extraLines.length; i++ ) {
-		nameAndExtra = extraLines[i].split('=');
-		extras.push({name: nameAndExtra[0], value: nameAndExtra[1]});
-	    }
-	    if (extraLines.length === 1) {
-		if (extraLines[0] !== "") {
-		    self.extra(extras[extras.length-1]);
+    self.extras = ko.observableArray([]);
+    self.extrasAsString = ko.computed({
+	read: function() {
+	    var outputString="",extra,i;
+	    for( i = 0; i < self.extras().length; i++ ) {
+		extra = self.extras()[i];
+		if (!extra.name) {
+		    outputString += "," + extra.value;
+		} else {
+		    outputString += "," + extra.name + "=" + extra.value;
 		}
-		return null;
-	    } else {
-		self.extra(undefined);
-		self.extrasForConfig = extras;
 	    }
-	} else if (extraLinesElemVal === "") {
-	    self.extra(undefined);
-	}
-	return extraLines;
+	    return outputString.substr(1); //removes leading comma
+	},
+	write: function(extrasAsString) {
+	    var extrasStrings, nameAndValue, i;
+	    self.extras.removeAll();
+	    extrasStrings = extrasAsString.split(',');
+	    for (i = 0; i < extrasStrings.length; i++ ) {
+		nameAndValue = extrasStrings[i].split('=');
+		if (nameAndValue.length === 2) {
+		    self.extras.push({name: nameAndValue[0], value: nameAndValue[1]});
+		} else {
+		    self.extras.push({value: nameAndValue[0]});
+		}
+	    }
+	}	
     });
     self.actionsForSelectedLib = ko.observableArray([]);
     self.target.subscribe( function(actionLib) {
